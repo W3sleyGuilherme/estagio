@@ -1,42 +1,137 @@
-#root {
-  max-width: 1280px;
+/* RESET BÁSICO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* CONTAINER PRINCIPAL - CENTRALIZADO */
+.container {
+  padding: 40px 20px;
+  max-width: 800px;
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  font-family: 'Arial, sans-serif', sans-serif;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  
+  /* GARANTIR CENTRALIZAÇÃO */
+  display: block;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* CABEÇALHO */
+.header {
   text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #007bff;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.titulo-principal {
+  font-size: 42px;
+  color: #333;
+  margin-bottom: 10px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.subtitulo {
+  font-size: 18px;
+  color: #666;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* LINHA DIVISÓRIA */
+.divisor {
+  border: none;
+  height: 2px;
+  background-color: #ddd;
+  margin: 30px auto;  /* AUTO centraliza */
+  width: 100%;
 }
 
-.card {
-  padding: 2em;
+/* CAIXA DA NOTÍCIA */
+.noticia {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  width: 100%;
 }
 
-.read-the-docs {
+.titulo-noticia {
+  font-size: 32px;
+  color: #222;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.meta-info {
   color: #888;
+  font-size: 16px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+/* CONTEÚDO */
+.conteudo {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+  text-align: justify;
+}
+
+.conteudo p {
+  margin-bottom: 20px;
+}
+
+/* CITAÇÃO */
+.citacao {
+  background-color: #f0f8ff;
+  padding: 20px;
+  border-left: 4px solid #007bff;
+  margin: 25px 0;
+  font-style: italic;
+  width: 100%;
+}
+
+.autor {
+  margin: 10px 0 0 0;
+  text-align: right;
+  font-weight: bold;
+}
+
+/* LINHA PEQUENA */
+.divisor-pequeno {
+  border: none;
+  height: 1px;
+  background-color: #ddd;
+  margin: 40px auto 20px auto;
+  width: 100%;
+}
+
+/* RODAPÉ */
+.rodape {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  width: 100%;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+  .container {
+    padding: 20px 15px;
+  }
+  
+  .titulo-principal {
+    font-size: 32px;
+  }
+  
+  .titulo-noticia {
+    font-size: 24px;
+  }
+  
+  .noticia {
+    padding: 20px;
+  }
 }
