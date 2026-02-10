@@ -1,78 +1,55 @@
-
-import './App.css';
+﻿import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
+  const [docs, setDocs] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:1337/api/documentos?populate=*")
+      .then((r) => r.json())
+      .then((d) => {
+        console.log("✅ CONEXÃO OK!", d);
+        setDocs(d.data || []);
+      })
+      .catch((e) => console.error("❌ ERRO:", e));
+  }, []);
+
   return (
-    <div className="container">
-
-      <header className="header">
-        <h1 className="titulo-principal">
-          ⚽ Notícias do Futebol
-        </h1>
-        <p className="subtitulo">
-          As principais notícias do mundo da bola
-        </p>
-      </header>
-
-      <hr className="divisor" />
-
-      <article className="noticia">
-        
-        <h2 className="titulo-noticia">
-          Neymar se recupera de lesão
-        </h2>
-        
-        <p className="meta-info">
-          📅 05 de fevereiro de 2026 | 📍 Redação Esportiva
-        </p>
-        
-        <div className="conteudo">
-          <p>
-            <strong>Neymar Jr.</strong>, atacante do Al Hilal e da Seleção Brasileira, 
-            está em fase final de recuperação de uma lesão no joelho que o afastou dos 
-            gramados há três meses.
-          </p>
-          
-          <p>
-            De acordo com a equipe médica do clube, a evolução do jogador tem sido 
-            positiva. Neymar já realiza trabalhos com a bola e deve voltar aos 
-            treinos coletivos em breve.
-          </p>
-          
-          <p>
-            O principal objetivo do atleta é estar 100% para a 
-            <strong> Copa do Mundo de 2026</strong>, que será realizada no 
-            Canadá, Estados Unidos e México.
-          </p>
-
-          <div className="citacao">
-            <p>
-              "Estou me dedicando totalmente à recuperação. Quero voltar mais forte 
-              e ajudar o Brasil a ser hexacampeão"
-            </p>
-            <p className="autor">
-              — Neymar Jr.
-            </p>
-          </div>
-          
-          <p>
-            Desde sua transferência para o Al Hilal, o atacante marcou 
-            <strong> 28 gols em 45 partidas</strong>.
-          </p>
-        </div>
-
-        <hr className="divisor-pequeno" />
-       
-        <footer className="rodape">
-          <p>
-            Fonte: Redação esportiva - Esta página foi criada com React para fins educativos
-          </p>
-        </footer>
-        
-      </article>
+    <div style={{ padding: "50px", textAlign: "center" }}>
+      <h1 style={{ color: "green", fontSize: "40px" }}>🎯 REACT + STRAPI</h1>
+      <p style={{ fontSize: "20px" }}>Documentos: <strong>{docs.length}</strong></p>
       
+      {docs.map(doc => (
+        <div key={doc.id} style={{ 
+          background: "white", 
+          border: "2px solid blue", 
+          padding: "20px", 
+          margin: "20px",
+          borderRadius: "10px"
+        }}>
+          <h2>{doc.attributes.titulo || "Sem título"}</h2>
+          <p style={{ color: "red", fontSize: "30px" }}>R$ {doc.attributes.preco || "0.00"}</p>
+          <button style={{ 
+            background: "orange", 
+            color: "white", 
+            padding: "10px 30px", 
+            fontSize: "18px",
+            border: "none",
+            borderRadius: "5px"
+          }}>
+            COMPRAR AGORA
+          </button>
+        </div>
+      ))}
+      
+      {docs.length === 0 && (
+        <div style={{ marginTop: "50px", padding: "30px", background: "#ffeb3b", borderRadius: "10px" }}>
+          <h3>📭 Nenhum documento encontrado</h3>
+          <p>Vá para o <a href="http://localhost:1337/admin" target="_blank">Strapi Admin</a> e crie seu primeiro documento!</p>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

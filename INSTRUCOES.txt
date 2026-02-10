@@ -1,0 +1,29 @@
+﻿📋 INSTRUÇÕES RÁPIDAS:
+
+COMO USAR:
+------------
+1. 🔥 PARA LIGAR TUDO:
+   - Clique 2x em "LIGAR-TUDO.bat"
+   - Aguarde abrir as janelas
+   - O navegador abrirá automaticamente
+
+2. 🛑 PARA DESLIGAR TUDO:
+   - Clique 2x em "DESLIGAR-TUDO.bat"
+   - Todas as janelas fecharão
+
+3. 🖥️ PARA TRABALHAR:
+   - Strapi Admin: http://localhost:1337/admin
+   - Seu site: http://localhost:5174
+
+4. 💾 PARA SALVAR NO GITHUB:
+   - O arquivo .gitignore já está configurado
+   - Só suba os códigos, não as pastas grandes
+
+PASTAS IMPORTANTES:
+-------------------
+backend/    - Seu projeto Strapi
+frontend/   - Seu projeto React
+
+⚠️  AVISO:
+- Não apague os arquivos .bat
+- Sempre use "DESLIGAR-TUDO.bat" antes de fechar

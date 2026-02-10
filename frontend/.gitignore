@@ -1,0 +1,5 @@
+﻿node_modules
+.tmp
+.cache
+build
+public/uploads
