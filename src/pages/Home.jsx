@@ -1,14 +1,14 @@
-﻿// src/App.jsx - Versão Melhorada COM COMPONENTES
+// src/pages/Home.jsx
 import React, { useState, useEffect, useRef } from "react";
-import { produtos } from "./data/produtos";
-import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
-import { Categorias } from "./components/Categorias";
-import { ProdutoCard } from "./components/ProdutoCard";
-import { CarrinhoModal } from "./components/CarrinhoModal";
-import "./App.css";
+import { produtos } from "../data/produtos";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
+import { Categorias } from "../components/Categorias";
+import { ProdutoCard } from "../components/ProdutoCard";
+import { CarrinhoModal } from "../components/CarrinhoModal";
+import "../App.css";
 
-function App() {
+export function Home() {
   // ========== ESTADOS ==========
   const [carrinho, setCarrinho] = useState([]);
   const [categoriaAtiva, setCategoriaAtiva] = useState("todos");
@@ -145,5 +145,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
