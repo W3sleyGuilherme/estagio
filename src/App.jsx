@@ -1,4 +1,4 @@
-﻿// src/App.jsx - Versão Melhorada COM COMPONENTES
+﻿// src/App.jsx - Versão Melhorada COM COMPONENTES E PROMOÇÕES
 import React, { useState, useEffect, useRef } from "react";
 import { produtos } from "./data/produtos";
 import { Header } from "./components/Header";
@@ -6,6 +6,7 @@ import { Footer } from "./components/Footer";
 import { Categorias } from "./components/Categorias";
 import { ProdutoCard } from "./components/ProdutoCard";
 import { CarrinhoModal } from "./components/CarrinhoModal";
+import { Promocoes } from "./components/Promocoes";
 import "./App.css";
 
 function App() {
@@ -15,13 +16,54 @@ function App() {
   const [modalAberto, setModalAberto] = useState(false);
   const [notificacao, setNotificacao] = useState({ mostrar: false, mensagem: '' });
   const modalRef = useRef(null);
+  
+  // Estado para controlar se está usando dados do Strapi ou locais
+  const [usarStrapi, setUsarStrapi] = useState(false);
+  const [produtosStrapi, setProdutosStrapi] = useState([]);
+
+  // ========== BUSCAR PRODUTOS DO STRAPI (OPCIONAL) ==========
+  useEffect(() => {
+    // Descomente esta parte quando o Strapi estiver pronto
+    /*
+    const buscarProdutos = async () => {
+      try {
+        const response = await fetch('http://localhost:1337/api/produtos?populate=categoria,imagem');
+        const data = await response.json();
+        
+        const produtosFormatados = data.data.map(item => ({
+          id: item.id,
+          nome: item.attributes.nome,
+          preco: item.attributes.preco.toFixed(2).replace('.', ','),
+          preco_promocional: item.attributes.preco_promocional?.toFixed(2).replace('.', ','),
+          imagem: item.attributes.imagem?.data?.attributes?.url 
+            ? `http://localhost:1337${item.attributes.imagem.data.attributes.url}`
+            : 'https://images.unsplash.com/photo-1510707577719-ae7c14805e4c?w=400',
+          categoria: item.attributes.categoria?.data?.attributes?.nome || 'Outros',
+          descricao: item.attributes.descricao,
+          promocao: item.attributes.promocao || false,
+          data_fim_promocao: item.attributes.data_fim_promocao
+        }));
+        
+        setProdutosStrapi(produtosFormatados);
+        setUsarStrapi(true);
+      } catch (error) {
+        console.error('Erro ao buscar produtos do Strapi:', error);
+        setUsarStrapi(false);
+      }
+    };
+    
+    buscarProdutos();
+    */
+  }, []);
 
   // ========== FUNÇÕES AUXILIARES ==========
-  const categorias = ["todos", ...new Set(produtos.map(p => p.categoria))];
+  const produtosAtivos = usarStrapi ? produtosStrapi : produtos;
+  
+  const categorias = ["todos", ...new Set(produtosAtivos.map(p => p.categoria))];
   
   const produtosFiltrados = categoriaAtiva === "todos" 
-    ? produtos 
-    : produtos.filter(p => p.categoria === categoriaAtiva);
+    ? produtosAtivos 
+    : produtosAtivos.filter(p => p.categoria === categoriaAtiva);
 
   // ========== FUNÇÕES DO CARRINHO ==========
   const adicionarAoCarrinho = (produto) => {
@@ -91,16 +133,22 @@ function App() {
             <button 
               className="btn-hero"
               onClick={() => {
-                document.querySelector(".produtos").scrollIntoView({ 
+                document.querySelector(".promocoes").scrollIntoView({ 
                   behavior: "smooth" 
                 });
               }}
             >
-              Ver Cardápio
+              Ver Promoções
             </button>
           </div>
         </div>
       </section>
+
+      {/* PROMOÇÕES EM DESTAQUE */}
+      <Promocoes 
+        adicionarAoCarrinho={adicionarAoCarrinho}
+        produtos={produtosAtivos}
+      />
 
       {/* CATEGORIAS */}
       <Categorias 
