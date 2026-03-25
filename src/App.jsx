@@ -7,6 +7,7 @@ import { Categorias } from "./components/Categorias";
 import { ProdutoCard } from "./components/ProdutoCard";
 import { CarrinhoModal } from "./components/CarrinhoModal";
 import { Promocoes } from "./components/Promocoes";
+import { Agendamento } from "./components/Agendamento";
 import "./App.css";
 
 function App() {
@@ -187,6 +188,9 @@ function App() {
         limparCarrinho={limparCarrinho}
         modalRef={modalRef}
       />
+
+      {/* AGENDAMENTO DE RESERVAS */}
+      <Agendamento />
 
       {/* FOOTER */}
       <Footer />
