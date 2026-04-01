@@ -38,7 +38,7 @@ export function Agendamento() {
       let horariosFiltrados = [...horarios];
       if (isWeekend) {
         horariosFiltrados = horariosFiltrados.filter(h => {
-          const hora = parseInt(h.split(':')[0]);
+          const hora = parseInt(h.split(':')[0]);  
           return hora >= 10 && hora <= 18;
         });
       }
