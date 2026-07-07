@@ -10,10 +10,10 @@ module.exports = [
         'http://localhost:5173',
         'http://localhost:3000',
         'https://*.onrender.com',
-        'https://cafeteria-api.onrender.com'
+        'https://cafeteria-frontend.onrender.com'
       ],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-      headers: ['Content-Type', 'Authorization', 'Origin', 'Accept', 'X-Requested-With'],
+      headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
       keepHeaderOnError: true,
     },
   },
