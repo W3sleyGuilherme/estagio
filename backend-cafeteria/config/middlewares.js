@@ -10,8 +10,7 @@ module.exports = [
         'http://localhost:5173',
         'http://localhost:3000',
         'https://*.onrender.com',
-        'https://cafeteria-api.onrender.com',
-        'https://seu-frontend.onrender.com' // Adicione a URL do seu frontend quando fizer deploy
+        'https://cafeteria-api.onrender.com'
       ],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
       headers: ['Content-Type', 'Authorization', 'Origin', 'Accept', 'X-Requested-With'],
