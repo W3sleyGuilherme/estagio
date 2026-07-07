@@ -26,51 +26,56 @@ function App() {
   const [carrinho, setCarrinho] = useState([]);
   const [showCarrinho, setShowCarrinho] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    carregarDados();
-  }, []);
-
-  const carregarDados = async () => {
-    try {
-      setLoading(true);
-      
-      const response = await api.get('/produtos?populate=*');
-      console.log('Produtos:', response.data);
-      
-      const produtosData = response.data.data.map(item => {
-        // CORREÇÃO: Verificar se imagem é um array e pegar a primeira
-        let imagemUrl = '/placeholder.jpg';
-        if (item.imagem && Array.isArray(item.imagem) && item.imagem.length > 0) {
-          imagemUrl = `http://localhost:1337${item.imagem[0].url}`;
-        } else if (item.imagem && item.imagem.url) {
-          // Caso seja objeto único
-          imagemUrl = `http://localhost:1337${item.imagem.url}`;
-        }
+    const carregarDados = async () => {
+      try {
+        setLoading(true);
+        setError(null);
         
-        return {
-          id: item.id,
-          nome: item.nome,
-          descricao: item.descricao,
-          preco: item.preco,
-          categoria: item.categoria?.Categoria || item.categoria?.nome || 'Sem categoria',
-          imagem: imagemUrl,
-          destaque: item.destaque || false,
-          promocao: item.promocao || false,
-        };
-      });
-      setProdutos(produtosData);
+        const response = await api.get('/produtos?populate=*');
+        console.log('Produtos recebidos:', response.data);
+        
+        const produtosData = response.data.data.map(item => {
+          let imagemUrl = '/placeholder.jpg';
+          if (item.imagem && Array.isArray(item.imagem) && item.imagem.length > 0) {
+            const img = item.imagem[0];
+            if (img && img.url) {
+              imagemUrl = `http://localhost:1337${img.url}`;
+            }
+          } else if (item.imagem && item.imagem.url) {
+            imagemUrl = `http://localhost:1337${item.imagem.url}`;
+          }
+          
+          return {
+            id: item.id,
+            nome: item.nome,
+            descricao: item.descricao,
+            preco: item.preco,
+            categoria: item.categoria?.Categoria || item.categoria?.nome || 'Sem categoria',
+            imagem: imagemUrl,
+            destaque: item.destaque || false,
+            promocao: item.promocao || false,
+          };
+        });
+        
+        setProdutos(produtosData);
 
-      const catResponse = await api.get('/categorias');
-      const categoriasData = catResponse.data.data.map(item => item.Categoria || item.nome);
-      setCategorias(['Todos', ...categoriasData]);
+        const catResponse = await api.get('/categorias');
+        const categoriasData = catResponse.data.data.map(item => item.Categoria || item.nome);
+        setCategorias(['Todos', ...categoriasData]);
 
-    } catch (error) {
-      console.error('Erro ao carregar dados:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+        setError('Erro ao carregar produtos. Verifique se o Strapi está rodando.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    carregarDados();
+  }, []); // Array vazio = executa apenas uma vez
 
   const adicionarAoCarrinho = (produto) => {
     setCarrinho(prev => {
@@ -112,6 +117,16 @@ function App() {
     (total, item) => total + item.preco * item.quantidade,
     0
   );
+
+  if (error) {
+    return (
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <h2>⚠️ Erro ao carregar dados</h2>
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()}>Tentar novamente</button>
+      </div>
+    );
+  }
 
   return (
     <Router>
