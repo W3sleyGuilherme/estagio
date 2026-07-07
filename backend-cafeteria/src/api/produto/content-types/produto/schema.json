@@ -4,7 +4,8 @@
   "info": {
     "singularName": "produto",
     "pluralName": "produtos",
-    "displayName": "Produto"
+    "displayName": "Produto",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -22,27 +23,24 @@
       "type": "decimal",
       "required": true
     },
+    "destaque": {
+      "type": "boolean",
+      "default": false
+    },
+    "promocao": {
+      "type": "boolean",
+      "default": false
+    },
     "categoria": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "manyToOne",
       "target": "api::categoria.categoria",
-      "inversedBy": "produto"
+      "inversedBy": "produtos"
     },
     "imagem": {
       "type": "media",
-      "multiple": true,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
-    "destaque": {
-      "type": "boolean"
-    },
-    "promocao": {
-      "type": "boolean"
+      "allowedTypes": ["images"],
+      "multiple": true
     }
   }
 }
