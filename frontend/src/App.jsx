@@ -8,12 +8,16 @@ import Produtos from './pages/Produtos';
 import CarrinhoModal from './components/CarrinhoModal';
 import Promocoes from './components/Promocoes';
 import Agendamento from './components/Agendamento';
+import Login from './components/Login';
+import Register from './components/Register';
 import './App.css';
 
-const TOKEN = "728312dd4494e7eef7d8db7bd2a2a18eddee13a231b8c23879e44c8bd4f236b5cac25cd9fe57cd87fdab242f6c7b611cd06cda7201d539e9ac988583728e44cba7128848e55d22816ed43f692f673a571fdc65e0481093594e6fb2f53feb31e31fcbb19afdd835ee5826ea5fb4fe1e80821c0e1a0fdad872aa7f07cc81f7a73d";
+// Usar variável de ambiente ou fallback
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
+const TOKEN = import.meta.env.VITE_API_TOKEN || '';
 
 const api = axios.create({
-  baseURL: 'http://localhost:1337/api',
+  baseURL: `${API_URL}/api`,
   headers: {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${TOKEN}`
@@ -27,7 +31,35 @@ function App() {
   const [showCarrinho, setShowCarrinho] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
 
+  // Carregar carrinho do localStorage
+  useEffect(() => {
+    const carrinhoSalvo = localStorage.getItem('carrinho');
+    if (carrinhoSalvo) {
+      try {
+        setCarrinho(JSON.parse(carrinhoSalvo));
+      } catch (e) {
+        console.error('Erro ao carregar carrinho:', e);
+      }
+    }
+    
+    const userSalvo = localStorage.getItem('user');
+    if (userSalvo) {
+      try {
+        setUser(JSON.parse(userSalvo));
+      } catch (e) {
+        console.error('Erro ao carregar usuário:', e);
+      }
+    }
+  }, []);
+
+  // Salvar carrinho no localStorage
+  useEffect(() => {
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+  }, [carrinho]);
+
+  // Carregar dados do Strapi
   useEffect(() => {
     const carregarDados = async () => {
       try {
@@ -42,10 +74,10 @@ function App() {
           if (item.imagem && Array.isArray(item.imagem) && item.imagem.length > 0) {
             const img = item.imagem[0];
             if (img && img.url) {
-              imagemUrl = `http://localhost:1337${img.url}`;
+              imagemUrl = `${API_URL}${img.url}`;
             }
           } else if (item.imagem && item.imagem.url) {
-            imagemUrl = `http://localhost:1337${item.imagem.url}`;
+            imagemUrl = `${API_URL}${item.imagem.url}`;
           }
           
           return {
@@ -54,6 +86,7 @@ function App() {
             descricao: item.descricao,
             preco: item.preco,
             categoria: item.categoria?.Categoria || item.categoria?.nome || 'Sem categoria',
+            categoriaId: item.categoria?.id || null,
             imagem: imagemUrl,
             destaque: item.destaque || false,
             promocao: item.promocao || false,
@@ -63,8 +96,11 @@ function App() {
         setProdutos(produtosData);
 
         const catResponse = await api.get('/categorias');
-        const categoriasData = catResponse.data.data.map(item => item.Categoria || item.nome);
-        setCategorias(['Todos', ...categoriasData]);
+        const categoriasData = catResponse.data.data.map(item => ({
+          id: item.id,
+          nome: item.Categoria || item.nome
+        }));
+        setCategorias([{ id: 0, nome: 'Todos' }, ...categoriasData]);
 
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
@@ -75,7 +111,7 @@ function App() {
     };
 
     carregarDados();
-  }, []); // Array vazio = executa apenas uma vez
+  }, []);
 
   const adicionarAoCarrinho = (produto) => {
     setCarrinho(prev => {
@@ -111,6 +147,7 @@ function App() {
 
   const limparCarrinho = () => {
     setCarrinho([]);
+    localStorage.removeItem('carrinho');
   };
 
   const totalCarrinho = carrinho.reduce(
@@ -118,12 +155,23 @@ function App() {
     0
   );
 
+  const handleLogin = (userData) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('jwt');
+  };
+
   if (error) {
     return (
       <div style={{ textAlign: 'center', padding: '50px' }}>
         <h2>⚠️ Erro ao carregar dados</h2>
         <p>{error}</p>
-        <button onClick={() => window.location.reload()}>Tentar novamente</button>
+        <button className="btn" onClick={() => window.location.reload()}>Tentar novamente</button>
       </div>
     );
   }
@@ -134,6 +182,8 @@ function App() {
         <Header 
           carrinhoCount={carrinho.reduce((acc, item) => acc + item.quantidade, 0)}
           onCarrinhoClick={() => setShowCarrinho(true)}
+          user={user}
+          onLogout={handleLogout}
         />
         
         <Routes>
@@ -158,7 +208,9 @@ function App() {
               adicionarAoCarrinho={adicionarAoCarrinho}
             />
           } />
-          <Route path="/agendamento" element={<Agendamento />} />
+          <Route path="/agendamento" element={<Agendamento user={user} />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/register" element={<Register onLogin={handleLogin} />} />
         </Routes>
 
         <CarrinhoModal

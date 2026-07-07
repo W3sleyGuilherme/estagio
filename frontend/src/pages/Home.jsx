@@ -10,6 +10,11 @@ function Home({ produtos, categorias, loading, adicionarAoCarrinho }) {
     return produtos.filter(p => p.categoria === categoriaSelecionada);
   }, [produtos, categoriaSelecionada]);
 
+  // Produtos em destaque
+  const produtosDestaque = useMemo(() => {
+    return produtos.filter(p => p.destaque).slice(0, 4);
+  }, [produtos]);
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -23,10 +28,52 @@ function Home({ produtos, categorias, loading, adicionarAoCarrinho }) {
       <section className="hero">
         <h1>☕ <span>Cafeteria do Fundão</span></h1>
         <p>O sabor que vem do fundão, direto para sua xícara!</p>
+        <div className="hero-info">
+          <span>📍 Fundão, Portugal</span>
+          <span>⏰ 8h - 22h</span>
+          <span>📞 (11) 99999-9999</span>
+        </div>
       </section>
 
+      {/* Produtos em Destaque */}
+      {produtosDestaque.length > 0 && (
+        <section className="destaque-section">
+          <div className="container">
+            <h2>⭐ Produtos em Destaque</h2>
+            <div className="produtos-grid">
+              {produtosDestaque.map(produto => (
+                <div key={produto.id} className="produto-card destaque">
+                  <span className="badge-destaque">⭐ Destaque</span>
+                  <img 
+                    src={produto.imagem} 
+                    alt={produto.nome}
+                    onError={(e) => {
+                      e.target.src = '/placeholder.jpg';
+                    }}
+                  />
+                  <div className="produto-info">
+                    <h3>{produto.nome}</h3>
+                    <p>{produto.descricao}</p>
+                    <div className="preco">R$ {produto.preco.toFixed(2)}</div>
+                    <button 
+                      className="btn"
+                      onClick={() => adicionarAoCarrinho(produto)}
+                    >
+                      Adicionar ao Carrinho
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Todos os Produtos */}
       <section className="produtos-section">
         <div className="container">
+          <h2>📋 Nosso Cardápio</h2>
+          
           <div className="categorias">
             {categorias.map(cat => (
               <button

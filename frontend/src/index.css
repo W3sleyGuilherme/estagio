@@ -930,3 +930,73 @@ body {
     padding: 20px;
   }
 }
+
+/* ===== HERO INFO ===== */
+.hero-info {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 20px;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  flex-wrap: wrap;
+}
+
+.hero-info span {
+  background: rgba(255,255,255,0.1);
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+
+/* ===== DESTAQUE ===== */
+.destaque-section {
+  padding: 40px 0;
+  background: linear-gradient(135deg, #fdf8f3 0%, #f5ece3 100%);
+}
+
+.destaque-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 32px;
+}
+
+.badge-destaque {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: var(--primary);
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+}
+
+.produto-card.destaque {
+  border: 2px solid #FFD700;
+}
+
+/* ===== PRODUTOS TÍTULO ===== */
+.produtos-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.produtos-section .container > p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+/* ===== SEM PRODUTOS ===== */
+.sem-produtos {
+  text-align: center;
+  padding: 40px 0;
+  color: #999;
+  font-size: 1.1rem;
+}
