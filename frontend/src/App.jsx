@@ -12,11 +12,12 @@ import Login from './components/Login';
 import Register from './components/Register';
 import './App.css';
 
-const API_URL = 'https://cafeteria-api-lbvd.onrender.com';
-const TOKEN = 'b4d929c0308d43267244b2b9b7c11ea8cb823a65f52686391cc1b6f3068ddfb43eec3fb1e55ff1ed85ab993bafab4a4c80e5cdfe90c8cc0ee7e073774baad8dcf585bfda32199c3cca908a663c35720356f17f162ba2d4a82013e1d6e17398bf393006b102fd10c4ee76ee2b0b8447d39947af487d07af65b006c2b0ff18a20d';
+// LER DAS VARIÁVEIS DE AMBIENTE
+const API_URL = import.meta.env.VITE_API_URL || 'https://cafeteria-api-lbvd.onrender.com';
+const TOKEN = import.meta.env.VITE_API_TOKEN || '';
 
 console.log('📡 Conectando ao Strapi em:', API_URL);
-console.log('🔑 Token (primeiros 20 caracteres):', TOKEN.substring(0, 20) + '...');
+console.log('🔑 Token presente:', TOKEN ? 'Sim' : 'Não');
 
 const api = axios.create({
   baseURL: `${API_URL}/api`,
@@ -25,16 +26,6 @@ const api = axios.create({
     'Authorization': `Bearer ${TOKEN}`
   },
 });
-
-// Interceptor para verificar o token
-api.interceptors.request.use(
-  (config) => {
-    console.log('🔑 Enviando requisição para:', config.url);
-    console.log('🔑 Com token:', config.headers.Authorization ? 'Sim' : 'Não');
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
 
 function App() {
   const [produtos, setProdutos] = useState([]);
@@ -178,7 +169,6 @@ function App() {
       <div style={{ textAlign: 'center', padding: '50px' }}>
         <h2>⚠️ Erro ao carregar dados</h2>
         <p>{error}</p>
-        <p style={{ fontSize: '0.9rem', color: '#666' }}>Token: Presente no código</p>
         <button className="btn" onClick={() => window.location.reload()}>Tentar novamente</button>
       </div>
     );
