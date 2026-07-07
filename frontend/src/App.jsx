@@ -13,7 +13,7 @@ import Register from './components/Register';
 import './App.css';
 
 const API_URL = 'https://cafeteria-api-lbvd.onrender.com';
-const TOKEN = 'e83a531b499ad0b9f9dead9cd1d0233fce4159f2b2fb2377ab325757aadb336a47982b3f19e2d82e307aad823b0081c28bde0d0b8cdaaad4c76e817d001aa1d688ace5844e20ecd24ecf1cfb28988af68c2f7467fbaaacb71b5794dab9bdc1e997b70479bb4ab0e4209b72765ca39b475e90333c2abb94ce5d3e2d0b8ef8b71b';
+const TOKEN = 'b4d929c0308d43267244b2b9b7c11ea8cb823a65f52686391cc1b6f3068ddfb43eec3fb1e55ff1ed85ab993bafab4a4c80e5cdfe90c8cc0ee7e073774baad8dcf585bfda32199c3cca908a663c35720356f17f162ba2d4a82013e1d6e17398bf393006b102fd10c4ee76ee2b0b8447d39947af487d07af65b006c2b0ff18a20d';
 
 console.log('📡 Conectando ao Strapi em:', API_URL);
 
