@@ -33,6 +33,11 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::categoria.categoria"
+    },
+    "imagem": {
+      "type": "media",
+      "allowedTypes": ["images"],
+      "multiple": false
     }
   }
 }
