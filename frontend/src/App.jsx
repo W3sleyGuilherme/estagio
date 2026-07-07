@@ -12,9 +12,10 @@ import Login from './components/Login';
 import Register from './components/Register';
 import './App.css';
 
-// Usar variável de ambiente ou fallback
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
-const TOKEN = import.meta.env.VITE_API_TOKEN || '';
+const API_URL = 'https://cafeteria-api-lbvd.onrender.com';
+const TOKEN = 'e83a531b499ad0b9f9dead9cd1d0233fce4159f2b2fb2377ab325757aadb336a47982b3f19e2d82e307aad823b0081c28bde0d0b8cdaaad4c76e817d001aa1d688ace5844e20ecd24ecf1cfb28988af68c2f7467fbaaacb71b5794dab9bdc1e997b70479bb4ab0e4209b72765ca39b475e90333c2abb94ce5d3e2d0b8ef8b71b';
+
+console.log('📡 Conectando ao Strapi em:', API_URL);
 
 const api = axios.create({
   baseURL: `${API_URL}/api`,
@@ -33,41 +34,36 @@ function App() {
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
 
-  // Carregar carrinho do localStorage
   useEffect(() => {
     const carrinhoSalvo = localStorage.getItem('carrinho');
     if (carrinhoSalvo) {
       try {
         setCarrinho(JSON.parse(carrinhoSalvo));
-      } catch (e) {
-        console.error('Erro ao carregar carrinho:', e);
-      }
+      } catch (e) {}
     }
     
     const userSalvo = localStorage.getItem('user');
     if (userSalvo) {
       try {
         setUser(JSON.parse(userSalvo));
-      } catch (e) {
-        console.error('Erro ao carregar usuário:', e);
-      }
+      } catch (e) {}
     }
   }, []);
 
-  // Salvar carrinho no localStorage
   useEffect(() => {
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
   }, [carrinho]);
 
-  // Carregar dados do Strapi
   useEffect(() => {
     const carregarDados = async () => {
       try {
         setLoading(true);
         setError(null);
         
+        console.log('🔄 Buscando produtos de:', API_URL);
+        
         const response = await api.get('/produtos?populate=*');
-        console.log('Produtos recebidos:', response.data);
+        console.log('✅ Produtos recebidos:', response.data);
         
         const produtosData = response.data.data.map(item => {
           let imagemUrl = '/placeholder.jpg';
@@ -85,7 +81,7 @@ function App() {
             nome: item.nome,
             descricao: item.descricao,
             preco: item.preco,
-            categoria: item.categoria?.Categoria || item.categoria?.nome || 'Sem categoria',
+            categoria: item.categoria?.nome || 'Sem categoria',
             categoriaId: item.categoria?.id || null,
             imagem: imagemUrl,
             destaque: item.destaque || false,
@@ -98,13 +94,13 @@ function App() {
         const catResponse = await api.get('/categorias');
         const categoriasData = catResponse.data.data.map(item => ({
           id: item.id,
-          nome: item.Categoria || item.nome
+          nome: item.nome
         }));
         setCategorias([{ id: 0, nome: 'Todos' }, ...categoriasData]);
 
       } catch (error) {
-        console.error('Erro ao carregar dados:', error);
-        setError('Erro ao carregar produtos. Verifique se o Strapi está rodando.');
+        console.error('❌ Erro ao carregar dados:', error);
+        setError(`Erro ao carregar produtos. API: ${API_URL}`);
       } finally {
         setLoading(false);
       }

@@ -6,22 +6,24 @@ function Footer() {
       <div className="container footer-content">
         <div>
           <h4>☕ Cafeteria do Fundão</h4>
-          <p>O melhor café da região,</p>
-          <p>preparado com paixão e dedicação.</p>
+          <p>O melhor café do Fundão, preparado com ingredientes de qualidade, tradição e um atendimento acolhedor.</p>
+          <p>O lugar ideal para começar o dia, fazer uma pausa ou encontrar amigos.</p>
         </div>
         <div>
           <h4>Horário</h4>
-          <p>Segunda - Sexta: 8h - 22h</p>
-          <p>Sábado - Domingo: 9h - 20h</p>
+          <p>Segunda a Sexta: 08:00 – 20:00</p>
+          <p>Sábado: 09:00 – 19:00</p>
+          <p>Domingo: 09:00 – 13:00</p>
         </div>
         <div>
-          <h4>Contato</h4>
-          <p>(11) 99999-9999</p>
-          <p>contato@cafeteriadofundao.com</p>
+          <h4>Contacto</h4>
+          <p>📞 +351 275 000 000</p>
+          <p>✉️ contacto@cafeteriadofundao.pt</p>
+          <p>📍 Rua da Misericórdia, 6230-000 Fundão, Castelo Branco, Portugal</p>
           <div className="social">
-            <a href="#">📱</a>
-            <a href="#">📸</a>
-            <a href="#">🐦</a>
+            <a href="#" aria-label="Facebook">📱 Facebook</a>
+            <a href="#" aria-label="Instagram">📸 Instagram</a>
+            <a href="#" aria-label="LinkedIn">💼 LinkedIn</a>
           </div>
         </div>
       </div>
