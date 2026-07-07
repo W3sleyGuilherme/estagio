@@ -4,13 +4,11 @@
   "info": {
     "singularName": "produto",
     "pluralName": "produtos",
-    "displayName": "Produto",
-    "description": ""
+    "displayName": "Produto"
   },
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
     "nome": {
       "type": "string",
@@ -36,11 +34,6 @@
       "relation": "manyToOne",
       "target": "api::categoria.categoria",
       "inversedBy": "produtos"
-    },
-    "imagem": {
-      "type": "media",
-      "allowedTypes": ["images"],
-      "multiple": true
     }
   }
 }

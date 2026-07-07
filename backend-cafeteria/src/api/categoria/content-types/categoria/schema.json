@@ -4,27 +4,18 @@
   "info": {
     "singularName": "categoria",
     "pluralName": "categorias",
-    "displayName": "Categoria",
-    "description": ""
+    "displayName": "Categoria"
   },
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {},
   "attributes": {
     "nome": {
       "type": "string",
-      "required": true,
-      "unique": true
+      "required": true
     },
     "descricao": {
       "type": "text"
-    },
-    "produtos": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::produto.produto",
-      "mappedBy": "categoria"
     }
   }
 }
