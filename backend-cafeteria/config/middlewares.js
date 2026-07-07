@@ -1,19 +1,7 @@
 module.exports = [
   'strapi::logger',
   'strapi::errors',
-  {
-    name: 'strapi::security',
-    config: {
-      contentSecurityPolicy: {
-        useDefaults: true,
-        directives: {
-          'connect-src': ["'self'", 'https:'],
-          'img-src': ["'self'", 'data:', 'blob:', 'https://cafeteria-api.onrender.com'],
-          'media-src': ["'self'", 'data:', 'blob:', 'https://cafeteria-api.onrender.com'],
-        },
-      },
-    },
-  },
+  'strapi::security',
   {
     name: 'strapi::cors',
     config: {
@@ -21,11 +9,12 @@ module.exports = [
       origin: [
         'http://localhost:5173',
         'http://localhost:3000',
-        'https://seu-frontend.onrender.com', // Coloque a URL do seu frontend aqui
-        'https://*.onrender.com'
+        'https://*.onrender.com',
+        'https://cafeteria-api.onrender.com',
+        'https://seu-frontend.onrender.com' // Adicione a URL do seu frontend quando fizer deploy
       ],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-      headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
+      headers: ['Content-Type', 'Authorization', 'Origin', 'Accept', 'X-Requested-With'],
       keepHeaderOnError: true,
     },
   },
