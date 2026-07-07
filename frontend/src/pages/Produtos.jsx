@@ -15,11 +15,11 @@ function Produtos({ produtos, categorias, adicionarAoCarrinho }) {
         <div className="categorias">
           {categorias.map(cat => (
             <button
-              key={cat}
-              className={`categoria-btn ${categoriaSelecionada === cat ? 'active' : ''}`}
-              onClick={() => setCategoriaSelecionada(cat)}
+              key={cat.id || cat}
+              className={`categoria-btn ${categoriaSelecionada === cat.nome || categoriaSelecionada === cat ? 'active' : ''}`}
+              onClick={() => setCategoriaSelecionada(cat.nome || cat)}
             >
-              {cat}
+              {cat.nome || cat}
             </button>
           ))}
         </div>
@@ -27,11 +27,17 @@ function Produtos({ produtos, categorias, adicionarAoCarrinho }) {
         <div className="produtos-grid">
           {produtosFiltrados.map(produto => (
             <div key={produto.id} className="produto-card">
-              <img src={produto.imagem} alt={produto.nome} />
+              <img 
+                src={produto.imagem} 
+                alt={produto.nome}
+                onError={(e) => {
+                  e.target.src = '/placeholder.jpg';
+                }}
+              />
               <div className="produto-info">
                 <h3>{produto.nome}</h3>
                 <p>{produto.descricao}</p>
-                <div className="preco">R$ {produto.preco.toFixed(2)}</div>
+                <div className="preco">€ {produto.preco.toFixed(2)}</div>
                 <button 
                   className="btn"
                   onClick={() => adicionarAoCarrinho(produto)}

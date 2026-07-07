@@ -10,7 +10,6 @@ function Home({ produtos, categorias, loading, adicionarAoCarrinho }) {
     return produtos.filter(p => p.categoria === categoriaSelecionada);
   }, [produtos, categoriaSelecionada]);
 
-  // Produtos em destaque
   const produtosDestaque = useMemo(() => {
     return produtos.filter(p => p.destaque).slice(0, 4);
   }, [produtos]);
@@ -31,11 +30,10 @@ function Home({ produtos, categorias, loading, adicionarAoCarrinho }) {
         <div className="hero-info">
           <span>📍 Fundão, Portugal</span>
           <span>⏰ 8h - 22h</span>
-          <span>📞 (11) 99999-9999</span>
+          <span>📞 +351 275 000 000</span>
         </div>
       </section>
 
-      {/* Produtos em Destaque */}
       {produtosDestaque.length > 0 && (
         <section className="destaque-section">
           <div className="container">
@@ -54,7 +52,7 @@ function Home({ produtos, categorias, loading, adicionarAoCarrinho }) {
                   <div className="produto-info">
                     <h3>{produto.nome}</h3>
                     <p>{produto.descricao}</p>
-                    <div className="preco">R$ {produto.preco.toFixed(2)}</div>
+                    <div className="preco">€ {produto.preco.toFixed(2)}</div>
                     <button 
                       className="btn"
                       onClick={() => adicionarAoCarrinho(produto)}
@@ -69,7 +67,6 @@ function Home({ produtos, categorias, loading, adicionarAoCarrinho }) {
         </section>
       )}
 
-      {/* Todos os Produtos */}
       <section className="produtos-section">
         <div className="container">
           <h2>📋 Nosso Cardápio</h2>
@@ -99,7 +96,7 @@ function Home({ produtos, categorias, loading, adicionarAoCarrinho }) {
                 <div className="produto-info">
                   <h3>{produto.nome}</h3>
                   <p>{produto.descricao}</p>
-                  <div className="preco">R$ {produto.preco.toFixed(2)}</div>
+                  <div className="preco">€ {produto.preco.toFixed(2)}</div>
                   {produto.promocao && <span className="badge-promocao">🔥 Promoção</span>}
                   <button 
                     className={`btn ${produto.promocao ? 'btn-promocao' : ''}`}
